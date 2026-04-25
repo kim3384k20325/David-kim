@@ -117,13 +117,23 @@
 
 | 구성요소 | 상태 |
 |---------|------|
-| 채널 프로파일 템플릿 | ✓ |
+| 채널 프로파일 템플릿 (`/docs/channel-profile-template.md`) | ✓ |
 | sleep-music 프로파일 | ✓ (placeholder 일부 — lazy elicitation 적용) |
-| CLAUDE.md (이 파일) | ✓ MVP |
-| competitor-researcher | 미구현 (Step 3) |
-| keyword-strategist | 미구현 (Step 4) |
-| performance-analyst | 미구현 (Step 5) |
-| content-creator | 미구현 (Step 6) |
-| 다른 채널 프로파일 (playlist, history-narration) | 미작성 (Step 8) |
+| playlist 프로파일 | ✓ (placeholder 일부 — KPI = 반복재생·세션길이·평균시청시간) |
+| history-narration 프로파일 | ✓ (placeholder 일부 — KPI = CTR·유지율곡선·평균시청시간) |
+| CLAUDE.md (이 파일) | ✓ |
+| competitor-researcher (`.claude/agents/`) | ✓ |
+| keyword-strategist (`.claude/agents/`) | ✓ |
+| performance-analyst (`.claude/agents/`) | ✓ (실제 진단은 사용자 데이터 도착 시) |
+| content-creator (`.claude/agents/`) | ✓ |
+| youtube-research (`.claude/skills/`) | ✓ |
+| keyword-mining (`.claude/skills/`) | ✓ |
+| analytics-parser (`.claude/skills/`) | ✓ |
+| script-drafter (`.claude/skills/`) | ✓ |
+| thumbnail-prompter (`.claude/skills/`) | ✓ |
+| sleep-music 첫 사이클 산출물 | ✓ benchmark + keywords + strategy + script + thumbnail (dry-run) |
 
-미구현 서브에이전트 호출이 필요한 단계는 사용자에게 "해당 에이전트가 아직 빌드되지 않았다"고 알리고 진행 여부를 확인한다.
+다음 사이클 (Mode B 정규 운영 진입) 에 필요한 입력:
+- sleep-music 채널 URL·채널명 (벤치마크 갱신·진단 인용 시)
+- 실제 업로드 후 YouTube Studio 데이터 (CSV 또는 스크린샷) — performance-analyst Mode B2/B3 트리거
+- playlist / history-narration 채널의 세부 카테고리·언어 등 (각 채널 첫 Mode A 사이클 시작 시점에 lazy elicit)
