@@ -96,6 +96,52 @@
 
 ---
 
+## 6.1 Mode B 영상 작업 디렉토리 (B1·B2 데이터 저장)
+
+진단 리포트와 별개로, 각 업로드 영상의 **원본 메타·스크린샷 자산**은 다음 구조로 보관한다.
+
+```
+/output/<channel-id>/diagnostics/
+├── YYYY-MM-DD_<videoID>.md         # 진단 리포트 (각 윈도마다 1개)
+├── ...
+└── <videoID>/                       # 영상별 자산 번들
+    ├── meta.json                    # B1 영상 메타
+    └── screenshots/
+        ├── D+3_overview.png
+        ├── D+3_retention.png
+        ├── D+3_traffic.png
+        ├── D+3_audience.png         # 선택
+        ├── D+7_overview.png
+        ├── D+7_retention.png
+        ├── ...
+        └── D+14_*.png
+```
+
+`<videoID>` 는 YouTube watch URL의 11자 ID 우선. 미상 시 사용자가 부여한 슬러그(예: `2026-04-26_celtic-rain-2h`).
+
+### B1 — meta.json 스키마 (영상 업로드 직후 메인이 1회 수집)
+
+| 필드 | 형 | 필수 | 비고 |
+|------|---|-----|------|
+| `title` | string | ✓ | 게시 제목 |
+| `uploaded_at` | ISO 8601 (`YYYY-MM-DDTHH:MM±TZ`) | ✓ | 윈도 추적 기준 |
+| `length_seconds` | int | ✓ | 영상 길이 |
+| `description` | string | 권장 | 전체 또는 첫 500자 |
+| `tags` | string[] | 권장 | YouTube Studio 태그 필드 |
+| `strategy_ref` | path | 권장 | 어느 전략 파일을 실행한 영상인지 |
+| `script_ref`, `thumbnail_ref` | path | 권장 | B5 산출물 링크 |
+| `notes` | string | 선택 | A/B 테스트 변주 등 |
+
+### 윈도 추적 규칙 (D+3 / D+7 / D+14)
+
+1. 메인은 `uploaded_at` 을 기준으로 세 윈도(72h / 168h / 336h)의 도달 시점을 계산.
+2. 사용자가 새 세션을 시작할 때마다 메인은 **모든 채널의 진단 미완료 윈도**를 점검 — `<videoID>/screenshots/` 에 해당 윈도 4종 스크린샷이 없으면 "미진단".
+3. 도달했지만 미진단인 윈도가 있으면 첫 응답에서 1순위로 알림 + §4 4종 스크린샷 요청.
+4. 사용자가 명시적으로 "지금 D+N 진단 줘" 라고 하면 도달 여부와 무관하게 즉시 요청 (조기 진단 — 단 신뢰도 낮음을 리포트에 표기).
+5. 한 영상은 윈도당 1회만 진단 (재요청은 `_v2.md` 컨벤션 적용).
+
+---
+
 ## 7. 사용자 검토 게이트 (필수 정지점)
 
 다음 두 지점에서 사용자 승인 없이 다음 단계로 진행하지 않는다.
