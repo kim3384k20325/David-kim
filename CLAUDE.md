@@ -170,27 +170,104 @@
 
 ---
 
-## 9. 현재 구현 상태 (2026-04-25 기준)
+## 9. 현재 구현 상태 (2026-04-25 기준 — 세션 말미 갱신)
+
+### 9.1 시스템 (8단계 빌드 완료)
 
 | 구성요소 | 상태 |
 |---------|------|
 | 채널 프로파일 템플릿 (`/docs/channel-profile-template.md`) | ✓ |
-| sleep-music 프로파일 | ✓ (placeholder 일부 — lazy elicitation 적용) |
-| playlist 프로파일 | ✓ (placeholder 일부 — KPI = 반복재생·세션길이·평균시청시간) |
-| history-narration 프로파일 | ✓ (placeholder 일부 — KPI = CTR·유지율곡선·평균시청시간) |
-| CLAUDE.md (이 파일) | ✓ |
+| 빌드 지침 (`/docs/setup-guide.md`) | ✓ |
+| CLAUDE.md (이 파일, §6.1 영상 작업 디렉토리 + B2 스크린샷 트리거 포함) | ✓ |
 | competitor-researcher (`.claude/agents/`) | ✓ |
 | keyword-strategist (`.claude/agents/`) | ✓ |
-| performance-analyst (`.claude/agents/`) | ✓ (실제 진단은 사용자 데이터 도착 시) |
+| performance-analyst (`.claude/agents/`) | ✓ |
 | content-creator (`.claude/agents/`) | ✓ |
 | youtube-research (`.claude/skills/`) | ✓ |
 | keyword-mining (`.claude/skills/`) | ✓ |
 | analytics-parser (`.claude/skills/`) | ✓ |
 | script-drafter (`.claude/skills/`) | ✓ |
 | thumbnail-prompter (`.claude/skills/`) | ✓ |
-| sleep-music 첫 사이클 산출물 | ✓ benchmark + keywords + strategy + script + thumbnail (dry-run) |
 
-다음 사이클 (Mode B 정규 운영 진입) 에 필요한 입력:
-- sleep-music 채널 URL·채널명 (벤치마크 갱신·진단 인용 시)
-- 실제 업로드 후 YouTube Studio 데이터 (CSV 또는 스크린샷) — performance-analyst Mode B2/B3 트리거
-- playlist / history-narration 채널의 세부 카테고리·언어 등 (각 채널 첫 Mode A 사이클 시작 시점에 lazy elicit)
+### 9.2 채널별 진척
+
+#### sleep-music (Nature Trail) — `https://www.youtube.com/@NatureTrail-r3u` (UC=`UCp_HcmGOTTFXWCDyOclHnfw`)
+
+| 단계 | 상태 | 산출 |
+|------|------|------|
+| 프로파일 | ✓ | `/channels/sleep-music/profile.md` (스냅샷·메타 채워짐) |
+| A1·A2 벤치마크 | ✓ | `/output/sleep-music/benchmarks/2026-04-25_benchmark.md` (4채널) |
+| A3 키워드 | ✓ | `/output/sleep-music/keywords/2026-04-25_keywords.md` (31개) |
+| A4 베이스라인 진단 | ✓ | `/output/sleep-music/diagnostics/2026-04-25_baseline.md` (메인 합성 폴백) + 입력 데이터 `2026-04-25_baseline_data.md` |
+| B4 전략 v1 | ✓ | `/output/sleep-music/strategy/2026-04-25_next-upload.md` (Topic 1·2·3 후보) |
+| B5 v1 (dry-run) | ✓ | `/output/sleep-music/content/2026-04-25_script.md` + `_thumbnail.md` (Topic 2 Rainy Celtic Forest 2h) |
+| **B4 전략 v2** | ✓ | `/output/sleep-music/strategy/2026-04-25_next-upload_v2.md` (진단 반영, H1+H2+H3 통합) |
+| **B5 v2** | ✓ | `/output/sleep-music/content/2026-04-25_script_v2.md` + `_thumbnail_v2.md` (Celtic Mystique #1, 60분, 사용자 채택) |
+| 실제 업로드 | ⏳ 대기 | 사용자가 Suno→Midjourney→CapCut 제작 후 게시 예정 |
+| 윈도 진단 (B2/B3) | ⏳ 대기 | 업로드 직후 메인이 meta.json 생성, D+3/7/14 4종 스크린샷 요청 |
+
+##### 채널 현황 스냅샷 (28일, baseline_data 기준)
+- 영상 4건: Celtic 1:18:58 (73뷰, 13.6%) · Rain 3h (18뷰, 1.7%) · Mountain 3h (4뷰, 1.4%) · Korean Temple 2h (14뷰, 14.9% / CTR 2.7%)
+- 채널: 조회 115 / 시청 28.7h / 구독+5 / 노출 1,500 / 채널 CTR 3.3% / 평균 시청 12:40 / **검색 트래픽 ~0%**
+- 진단 병목: **체류 (retention)** — 길이별 양극화 + 노출 유입 6분 절벽
+- 다음 업로드 권장: Celtic Mystique Series #1 (Mystical Forest at Dawn, 60분, 다국어 제목, 컨셉 A 썸네일, Celtic 1편 retro-label #0 적용)
+- v2 전략 §10 검토 게이트 1·2 모두 사용자 승인 ✓
+
+#### playlist (Lia Company) — `https://www.youtube.com/@LiaCompany-s7k` (UC=`UCNdinVGdu7ZE1_44iigV_sw`)
+
+| 단계 | 상태 | 산출 |
+|------|------|------|
+| 프로파일 | ✓ | `/channels/playlist/profile.md` (4시리즈 운영 메모) |
+| A1·A2 벤치마크 | ✓ | `/output/playlist/benchmarks/2026-04-25_benchmark.md` (5채널 — Yellow Mixtape ~295K + 때껄룩 + haru/In The Indie/Shelter Music Box). **권장: 4시리즈 통합 유지, 시각 코드 5편 락-인** |
+| A3 키워드 | ✓ | `/output/playlist/keywords/2026-04-25_keywords.md` (24개 / 시리즈별 분산) |
+| A4 베이스라인 진단 | ⏳ 미진단 | 28일 채널 분석 1장 받았으나 부족 — 4종 스크린샷 (개요·시청자 활동·도달범위·시청자) + 영상별 retention curve 필요 |
+| B4 전략 | ⏳ 대기 | 진단 후 또는 진단 없이 벤치마크+키워드만으로 합성 가능 |
+| B5 | ⏳ 대기 | B4 승인 후 |
+
+##### 채널 현황 스냅샷 (28일)
+- 영상 4건 (4시리즈 각 1편): Night Cafe (R&B/Folk indie) · K-Pop Cafe Music · CCM · JPOP
+- 채널: 조회 91 / 시청 4.4h / 구독+4 / Top영상 14조회 (K-Pop Cafe chill & relax)
+- 미해결 결정: 4시리즈 통합 vs 분리 (벤치마크 §3 권장은 통합 유지, 시즌 1 시각 코드 락-인)
+
+#### history-narration (역사속의 흥미로운 이야기) — `https://www.youtube.com/@역사속의흥미로운이야기`
+
+| 단계 | 상태 | 산출 |
+|------|------|------|
+| 프로파일 | ✓ | `/channels/history-narration/profile.md` (조선 비중 확정 + CTR/유지율 신호 메모) |
+| A1·A2 벤치마크 | ✓ | `/output/history-narration/benchmarks/2026-04-25_benchmark.md` (3채널 — 썬킴 ~123K + 황현필 + 교양만두). **CTR 16.7%는 장르 표준 + 유지율 회복은 5~12분 단편 정합 권장** |
+| A3 키워드 | ✓ | `/output/history-narration/keywords/2026-04-25_keywords.md` (20개 / 4 인텐트 / 조선 75%) |
+| A4 베이스라인 진단 | ⏳ 미진단 | 28일 채널 분석 1장 받았으나 부족 — 4종 스크린샷 + 영상별 retention curve 필요 |
+| B4 전략 | ⏳ 대기 | 진단 후 또는 벤치마크+키워드만으로 합성 가능 |
+| B5 | ⏳ 대기 | B4 승인 후 |
+
+##### 채널 현황 스냅샷 (28일)
+- 영상 1건: "세종대왕은 왜 한여름 빗속에서 거적을 깔고 울었나" (2026-04-22 업로드)
+- 채널: 조회 8 / 구독+2 / 평균 시청 1:36 (2.1%) / **CTR 16.7% (강신호)**
+- 가설: 제목 공식(인물+의문)은 검증됨 (CTR 강함). 다음 액션은 길이 5~12분 단편 정합 + 시리즈 표준화
+
+### 9.3 다음 세션 진입 시 우선 트리거
+
+새 세션의 첫 응답에서 메인은 다음을 1순위로 점검·알림:
+
+1. **sleep-music 영상 업로드 확인** — 사용자가 Celtic Mystique #1 게시했는지. 게시했으면:
+   - meta.json 생성 (CLAUDE.md §6.1 스키마)
+   - D+3/7/14 윈도 등록
+   - Celtic 1편 retro-label (#0) 메타 갱신 진행 여부 확인
+2. **미진단 윈도 점검** — 모든 채널의 영상 중 D+N 도달했지만 진단 없는 영상 알림
+3. **사용자 의도 라우팅** — 사용자가 명시한 채널·작업으로 진입
+
+### 9.4 다음 사이클 (Mode B 정규 운영) 입력 예상
+
+| 채널 | 필요 입력 | 시점 |
+|------|----------|------|
+| sleep-music | Celtic Mystique #1 업로드 사실 + 영상 URL/videoID | 업로드 직후 |
+| sleep-music | D+3/7/14 시점 4종 스크린샷 + 영상별 retention curve (특히 #1 + 기존 Celtic #0) | 윈도 도달 시 |
+| playlist | YouTube Studio 4종 스크린샷 + 영상별 retention curve (4영상 분) | A4 진단 진행 시 |
+| history-narration | YouTube Studio 4종 스크린샷 + 영상별 retention curve (1영상 분) | A4 진단 진행 시 |
+
+### 9.5 미해결 결정 / 추적 항목
+
+- sleep-music: Celtic 1편 retro-label (#0) 실제 메타 갱신 시점 (D-1 또는 D+0 권장)
+- playlist: 4시리즈 통합 vs 분리 — 벤치마크 권장은 통합 유지, A4 진단 후 최종 결정
+- history-narration: 단편(5~12분) 정합 우선 vs 기존 영상 길이 유지 — A4 진단 후 결정
+- 모든 채널 공통: Mode A 월간 갱신 주기 (다음 갱신 권장: 2026-05-25)
