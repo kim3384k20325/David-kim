@@ -8,8 +8,8 @@
 ## 1. 식별 정보
 
 - **채널 ID**: `sleep-music`
-- **채널명**: `<유튜브 표시 이름 — 사용자 입력 필요>`
-- **채널 URL**: `<https://www.youtube.com/@... — 사용자 입력 필요>`
+- **채널명**: Nature Trail (핸들 기준 추정 — 사용자 확인 필요)
+- **채널 URL**: https://www.youtube.com/@NatureTrail-r3u
 
 ## 2. 장르 및 포지셔닝
 
